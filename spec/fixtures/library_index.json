@@ -1,0 +1,324 @@
+{
+  "libraries": [
+    {
+      "name": "AudioZero",
+      "version": "1.0.1",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino Zero only.",
+      "paragraph": "With this library you can use the Arduino Zero DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "samd"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/AudioZero-1.0.1.zip",
+      "archiveFileName": "AudioZero-1.0.1.zip",
+      "size": 4925,
+      "checksum": "SHA-256:c938f00aceec2f91465d1486b4cd2d3e1299cdc271eb743d2dedcd8c2dd355a8"
+    },
+    {
+      "name": "AudioZero",
+      "version": "1.0.0",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino Zero only.",
+      "paragraph": "With this library you can use the Arduino Zero DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "samd"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/AudioZero-1.0.0.zip",
+      "archiveFileName": "AudioZero-1.0.0.zip",
+      "size": 4962,
+      "checksum": "SHA-256:0bc3847eab13222c53ff5ab094dcd92f8b293ba897ffccd457e5b68b5d1e8117"
+    },
+    {
+      "name": "AudioZero",
+      "version": "1.1.1",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino Zero and MKR1000 only.",
+      "paragraph": "With this library you can use the Arduino Zero ort MKR1000 DAC output (A0) to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "samd"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/AudioZero-1.1.1.zip",
+      "archiveFileName": "AudioZero-1.1.1.zip",
+      "size": 4953,
+      "checksum": "SHA-256:4604a3b92b9f4a7dd92534eb09247443fa5078e6bd0e7a2c5f3060eaba2ad974"
+    },
+    {
+      "name": "Esplora",
+      "version": "1.0.0",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Grants easy access to the various sensors and actuators of the Esplora. For Arduino Esplora only.",
+      "paragraph": "The sensors available on the board are:2-Axis analog joystick with center push-button,4 push-buttons,microphone, light sensor, temperature sensor, 3-axis accelerometer, 2 TinkerKit input connectors.\u003c/br\u003eThe actuators available on the board are: bright RGB LED, piezo buzzer, 2 TinkerKit output connectors.",
+      "website": "http://arduino.cc/en/Reference/EsploraLibrary",
+      "category": "Device Control",
+      "architectures": [
+        "avr"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Esplora-1.0.0.zip",
+      "archiveFileName": "Esplora-1.0.0.zip",
+      "size": 19695,
+      "checksum": "SHA-256:25a0d6a3fcafc0e09cc8a24dcf3620e4a6530cff04094424b6827acf572f0b87"
+    },
+    {
+      "name": "Esplora",
+      "version": "1.0.1",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Grants easy access to the various sensors and actuators of the Esplora. For Arduino Esplora only.",
+      "paragraph": "The sensors available on the board are:2-Axis analog joystick with center push-button,4 push-buttons,microphone, light sensor, temperature sensor, 3-axis accelerometer, 2 TinkerKit input connectors.\u003c/br\u003eThe actuators available on the board are: bright RGB LED, piezo buzzer, 2 TinkerKit output connectors.",
+      "website": "http://arduino.cc/en/Reference/EsploraLibrary",
+      "category": "Device Control",
+      "architectures": [
+        "avr"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Esplora-1.0.1.zip",
+      "archiveFileName": "Esplora-1.0.1.zip",
+      "size": 19695,
+      "checksum": "SHA-256:a496ac27dc793078f0c5c18df0a3cb84e7867c1939a914dbb9654b1189fce4af"
+    },
+    {
+      "name": "Esplora",
+      "version": "1.0.2",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Grants easy access to the various sensors and actuators of the Esplora. For Arduino Esplora only.",
+      "paragraph": "The sensors available on the board are:2-Axis analog joystick with center push-button,4 push-buttons,microphone, light sensor, temperature sensor, 3-axis accelerometer, 2 TinkerKit input connectors.\u003c/br\u003eThe actuators available on the board are: bright RGB LED, piezo buzzer, 2 TinkerKit output connectors.",
+      "website": "http://arduino.cc/en/Reference/EsploraLibrary",
+      "category": "Device Control",
+      "architectures": [
+        "avr"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Esplora-1.0.2.zip",
+      "archiveFileName": "Esplora-1.0.2.zip",
+      "size": 19691,
+      "checksum": "SHA-256:b32a2aefb4e3cbf35e253ab675ae59b3f0211cf4b68823df0d55c69b1d1916d0"
+    },
+    {
+      "name": "Esplora",
+      "version": "1.0.3",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Grants easy access to the various sensors and actuators of the Esplora. For Arduino Esplora only.",
+      "paragraph": "The sensors available on the board are:2-Axis analog joystick with center push-button,4 push-buttons,microphone, light sensor, temperature sensor, 3-axis accelerometer, 2 TinkerKit input connectors.\u003c/br\u003eThe actuators available on the board are: bright RGB LED, piezo buzzer, 2 TinkerKit output connectors.",
+      "website": "http://arduino.cc/en/Reference/EsploraLibrary",
+      "category": "Device Control",
+      "architectures": [
+        "avr"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Esplora-1.0.3.zip",
+      "archiveFileName": "Esplora-1.0.3.zip",
+      "size": 19699,
+      "checksum": "SHA-256:eef28d4a195154e133817e00c9a0a666f8f97a200073d0029d98717b47d31834"
+    },
+    {
+      "name": "Esplora",
+      "version": "1.0.4",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Grants easy access to the various sensors and actuators of the Esplora. For Arduino Esplora only.",
+      "paragraph": "The sensors available on the board are:2-Axis analog joystick with center push-button,4 push-buttons,microphone, light sensor, temperature sensor, 3-axis accelerometer, 2 TinkerKit input connectors.\u003c/br\u003eThe actuators available on the board are: bright RGB LED, piezo buzzer, 2 TinkerKit output connectors.",
+      "website": "http://www.arduino.cc/en/Reference/EsploraLibrary",
+      "category": "Device Control",
+      "architectures": [
+        "avr"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Esplora-1.0.4.zip",
+      "archiveFileName": "Esplora-1.0.4.zip",
+      "size": 19710,
+      "checksum": "SHA-256:e2d3ad8c5be98c40850d3e5f8c729cd27d8e47e0515d54abf79213f09cd30329"
+    },
+    {
+      "name": "Audio",
+      "version": "1.0.0",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino DUE only.",
+      "paragraph": "With this library you can use the Arduino Due DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "sam"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Audio-1.0.0.zip",
+      "archiveFileName": "Audio-1.0.0.zip",
+      "size": 6753,
+      "checksum": "SHA-256:a8e30ae581fbf15ad357c83a60c2ad3ebf93ef12e4a82a6cbd475a4eac6dc9d7"
+    },
+    {
+      "name": "Audio",
+      "version": "1.0.1",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino DUE only.",
+      "paragraph": "With this library you can use the Arduino Due DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "sam"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Audio-1.0.1.zip",
+      "archiveFileName": "Audio-1.0.1.zip",
+      "size": 6718,
+      "checksum": "SHA-256:6083b7b62f18b069b77aa1d5c3df03394cb03170777b43e8a729635bc245dcb6"
+    },
+    {
+      "name": "Audio",
+      "version": "1.0.2",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino DUE only.",
+      "paragraph": "With this library you can use the Arduino Due DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "sam"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Audio-1.0.2.zip",
+      "archiveFileName": "Audio-1.0.2.zip",
+      "size": 6723,
+      "checksum": "SHA-256:1f832beb75c48d6e304cab5e0f85817843ff81d609cf8ce51df7b0da53fb4d95"
+    },
+    {
+      "name": "Audio",
+      "version": "1.0.3",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino DUE only.",
+      "paragraph": "With this library you can use the Arduino Due DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://www.arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "sam"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Audio-1.0.3.zip",
+      "archiveFileName": "Audio-1.0.3.zip",
+      "size": 6731,
+      "checksum": "SHA-256:b21c28e609e22869e5cfce53b6b087f710b2f826a0af9d0e09cab161e0b6d590"
+    },
+    {
+      "name": "Audio",
+      "version": "1.0.4",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino DUE only.",
+      "paragraph": "With this library you can use the Arduino Due DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://www.arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "sam"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Audio-1.0.4.zip",
+      "archiveFileName": "Audio-1.0.4.zip",
+      "size": 6731,
+      "checksum": "SHA-256:962def8814846db777146a43ebcbad98a39fd4bc372b808424f4e12277ed4141"
+    },
+    {
+      "name": "Audio",
+      "version": "1.0.5",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Allows playing audio files from an SD card. For Arduino DUE only.",
+      "paragraph": "With this library you can use the Arduino Due DAC outputs to play audio files.\u003cbr /\u003eThe audio files must be in the raw .wav format.",
+      "website": "http://www.arduino.cc/en/Reference/Audio",
+      "category": "Signal Input/Output",
+      "architectures": [
+        "sam"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Audio-1.0.5.zip",
+      "archiveFileName": "Audio-1.0.5.zip",
+      "size": 6733,
+      "checksum": "SHA-256:06ad6f32e507971596752032fa537cb958622b9dbda3239478b7fd8b3387eda8"
+    },
+    {
+      "name": "Bridge",
+      "version": "1.0.0",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Enables the communication between the Linux processor and the AVR. For Arduino Yún and TRE only.",
+      "paragraph": "The Bridge library feature: access to the shared storage, run and manage linux processes, open a remote console, access to the linux file system, including the SD card, enstablish http clients or servers.",
+      "website": "http://arduino.cc/en/Reference/YunBridgeLibrary",
+      "category": "Communication",
+      "architectures": [
+        "*"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Bridge-1.0.0.zip",
+      "archiveFileName": "Bridge-1.0.0.zip",
+      "size": 79554,
+      "checksum": "SHA-256:9b80eb3c4064a2905a2be385fc2ee0ab2d19f5add43a743776fa9bff30c662d7"
+    },
+    {
+      "name": "Bridge",
+      "version": "1.0.1",
+      "author": "Arduino",
+      "maintainer": "Arduino \u003cinfo@arduino.cc\u003e",
+      "sentence": "Enables the communication between the Linux processor and the AVR. For Arduino Yún and TRE only.",
+      "paragraph": "The Bridge library feature: access to the shared storage, run and manage linux processes, open a remote console, access to the linux file system, including the SD card, enstablish http clients or servers.",
+      "website": "http://arduino.cc/en/Reference/YunBridgeLibrary",
+      "category": "Communication",
+      "architectures": [
+        "*"
+      ],
+      "types": [
+        "Arduino"
+      ],
+      "url": "http://downloads.arduino.cc/libraries/github.com/arduino-libraries/Bridge-1.0.1.zip",
+      "archiveFileName": "Bridge-1.0.1.zip",
+      "size": 79571,
+      "checksum": "SHA-256:72f177e2711d558f655937f9c85edff8fb83a738156ab3b2b4b765267f395af0"
+    }
+  ]
+}
