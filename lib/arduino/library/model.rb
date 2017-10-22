@@ -1,4 +1,5 @@
 require_relative 'types'
+require 'json'
 
 module Arduino
   module Library

@@ -1,7 +1,10 @@
 require 'open-uri'
 require 'zlib'
+require 'json'
+
 require 'arduino/library'
 require 'arduino/library/model'
+
 module Arduino
   module Library
 

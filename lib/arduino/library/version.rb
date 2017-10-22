@@ -1,8 +1,8 @@
 module Arduino
   module Library
-    VERSION = '0.2.0'
+    VERSION = '0.2.1'
     DESCRIPTION = <<-eof
-      A simple model encapsulation of an Arduino Library with to/from JSON and .properties transformations, and proper validations, library search, and much more.)
+      This gem encapsulates many concepts related to how Arduino Libraries are indexed, how their metadata is validated, or .properties file generated. It supports searching the Arduino library database for any terms. This gem is used by Arli — Arduino Installer CLI toolkit.
     eof
   end
 end
