@@ -28,6 +28,7 @@ RSpec.describe Arduino::Library::Database do
 
       context '#find' do
         let(:local_audio_zero) { Arduino::Library::Model.from_json_file('spec/fixtures/audio_zero.json') }
+
         let(:audio_zero) { db.find(name: 'AudioZero', version: '1.0.1') }
         it 'should find our AudioZero library' do
           expect(audio_zero.first.to_hash).to eql(local_audio_zero.to_hash)
@@ -38,14 +39,52 @@ RSpec.describe Arduino::Library::Database do
             expect(library.name).to eq('AudioZero')
           end
         end
-      end
-    end
 
-    context 'from a default url', ci_only: true do
-      let(:db) { described_class.new }
-      its(:size) { should > 3600 }
+        context 'various finder types' do
+          let(:name) { 'AudioZero' }
+          let(:version) { '1.0.1' }
+          subject(:result) { db.find(name: name, version: version_argument).first }
+
+          context 'String' do
+            let(:version_argument) { '1.0.1' }
+            its(:version) { should eq version }
+            its(:name) { should eq name }
+          end
+
+          context 'Regexp' do
+            let(:version_argument) { /\d\.\d\.1/ }
+            its(:version) { should eq version }
+            its(:name) { should eq name }
+          end
+
+          context 'Proc' do
+            let(:version_argument) { ->(value) { value == version } }
+            its(:version) { should eq version }
+            its(:name) { should eq name }
+          end
+
+          context 'Array' do
+            let(:architectures) { %w(avr) }
+            subject(:results) { db.find(architectures: architectures) }
+            it { is_expected.to_not be_nil }
+            its(:size) { should eq 7 }
+            context 'resulting array' do
+              subject(:returned_architectures) { results.map(&:architectures).flatten.uniq }
+              its(:first) { should eq 'avr' }
+              its(:last) { should eq '*' }
+              its(:size) { should eq 2 }
+            end
+
+          end
+        end
+      end
+
+      context 'from a default url', ci_only: true do
+        let(:db) { described_class.new }
+        its(:size) { should > 3600 }
+      end
+
     end
 
   end
-
 end

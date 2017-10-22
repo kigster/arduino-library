@@ -5,6 +5,27 @@ module Arduino
   module Library
     module Presenters
       class Properties < Struct.new(:model)
+        class << self
+          include ::Arduino::Library::Utilities
+          # Class method, that reads a properties file and returns a properly
+          # validated Arduino::Library::Model instance.
+          def from(file_or_url)
+            file  = read_file_or_url(file_or_url)
+            props = file.read.split(/\n/)
+            hash  = {}
+            props.each do |line|
+              attr, value = line.split('=')
+              attr        = attr.to_sym
+              if Types::ARRAY_ATTRIBUTES.include?(attr)
+                hash[attr] = value.split(',')
+              else
+                hash[attr] = value
+              end
+            end
+            ::Arduino::Library::Model.from_hash(hash)
+          end
+        end
+
         attr_accessor :presented
 
         def initialize(*args)
@@ -18,37 +39,24 @@ module Arduino
         # variable.
         def present
           Types::LIBRARY_PROPERTIES.keys.each do |attr|
-            value = model.send(attr) if model && model.respond_to?(attr)
-            next unless value
-            if value.is_a?(Array)
-              self.presented << "#{attr}=#{model.send(attr).join(',')}\n"
-            else
-              self.presented << "#{attr}=#{model.send(attr)}\n"
-            end
+            attribute_presenter(attr)
           end
           presented
         end
 
-        class << self
-          # Class method, that reads a properties file and returns a properly
-          # validated Arduino::Library::Model instance.
-          def from_file(file)
-            props = File.read(file).split(/\n/)
-            hash  = {}
-            props.each do |line|
-              attr, value = line.split('=')
-              attr        = attr.to_sym
-              if Types::ARRAY_ATTRIBUTES.include?(attr)
-                hash[attr] = value.split(',')
-              else
-                hash[attr] = value
-              end
-            end
+        private
 
-            ::Arduino::Library::Model.from_hash(hash)
+        def attribute_presenter(attr)
+          value = model.send(attr) if model && model.respond_to?(attr)
+          return unless value
+          if value.is_a?(Array)
+            self.presented << "#{attr}=#{model.send(attr).join(',')}\n"
+          else
+            self.presented << "#{attr}=#{model.send(attr)}\n"
           end
         end
       end
+
     end
   end
 end

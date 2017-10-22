@@ -34,10 +34,20 @@ RSpec.describe Arduino::Library::Model do
         its(:archiveFileName) { should eq 'AudioZero-1.0.1.zip' }
       end
 
-      context '.from_json' do
-        subject(:props) { described_class.from_json_file(file) }
-        its(:name) { should eq 'AudioZero' }
+      context 'json' do
+        subject(:lib) { described_class.from(source) }
+        context 'a file' do
+          let(:source) { file }
+          its(:name) { should eq 'AudioZero' }
+        end
+
+        context 'auto-detect json' do
+          let(:source) { File.read(file) }
+          its(:name) { should eq 'AudioZero' }
+
+        end
       end
+
     end
 
     context 'reading from the index multi-library JSON' do
