@@ -1,4 +1,7 @@
 sudo: false
+environment:
+  global:
+    - CI=TRAVIS
 language: ruby
 rvm:
   - 2.4.1

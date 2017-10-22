@@ -4,7 +4,7 @@ module Arduino
   module Library
     # This class represents a single entry into the library-index.json file,
     # in other words — a `library.properties` file.
-    class Properties < Dry::Struct
+    class Model < Dry::Struct
       # noinspection RubyResolve
       constructor_type :symbolized
 
@@ -27,15 +27,10 @@ module Arduino
           raise "File #{file} does not exist?" unless File.exist?(file)
           from_json(File.read(file))
         end
-
-        def database(file = nil)
-          return @database unless file
-          raise "File #{file} does not exist?" unless File.exist?(file)
-          hash = JSON.load(File.read(file))
-          @database = []
-          @database = hash['libraries'].map{|lib| from_hash(lib) }
-        end
       end
     end
   end
 end
+
+
+require_relative 'presenters/properties'

@@ -93,6 +93,8 @@ module Arduino
         includes:        'Types::Json::Array.member(Types::FileName).optional',
       }.freeze
 
+      ARRAY_ATTRIBUTES = LIBRARY_PROPERTIES.keys.select { |k| LIBRARY_PROPERTIES[k] =~ /Array/ }
+
       class << self
         attr_accessor :schema
       end

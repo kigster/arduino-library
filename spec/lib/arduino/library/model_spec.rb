@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'json'
 
-RSpec.describe Arduino::Library::Properties do
+RSpec.describe Arduino::Library::Model do
   context '#initialize' do
     let(:schema) { Arduino::Library::Types.schema }
 
@@ -58,10 +58,6 @@ RSpec.describe Arduino::Library::Properties do
         end
       end
 
-      context '.database' do
-        subject(:database) { described_class.database(file) }
-        its(:size) { should eq 16 }
-      end
     end
   end
 end

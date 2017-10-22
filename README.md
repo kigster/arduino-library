@@ -29,42 +29,81 @@ Or install it yourself as:
 
 Current version only contains Ruby-based API and is meant to be consumed by other projects (in particularly, check out [Arli](https://github.com/kigster/arli) — a command-line tool and an Arduino Library Manager and installer). This project is invaluable if you are you using, for example, [arduino-cmake](https://github.com/arduino-cmake/arduino-cmake) project to build and upload your Arduino Code.
 
-### Load List of Libraries from a JSON Index
+### Downloading Library Index, parsing and searching for a library
+
+You can load libraries from a local JSON file, or from a remote URL, eg:  
+
+```ruby 
+require 'arduino/library'
+
+database = Arduino::Library::Database.from(
+  'http://downloads.arduino.cc/libraries/library_index.json.gz')
+```
+
+or, since the above link happens to be the default location of Arduino-maintained librarie index file, you can use the `default` method instead:
 
 ```ruby
-# You can load libraries from a local JSON file, or from a remote URL, eg:  
-database = Arduino::Library.from('http://downloads.arduino.cc/libraries/library_index.json.gz')
+database = Arduino::Library::Database.default
+```
 
-# or, since the above link is the default location of Arduino-maintained libraries,
-database = Arduino::Library.default # is equivalent to the above
+or, load the list from a local JSON file, that can be optionally gzipped (just like the URL):
 
-# or, load it from a local JSON file, that can be optionally gzipped: 
-database = Arduino::Library.from('library_index.json.gz')
+```ruby
+database = Arduino::Library::Database.from('library_index.json.gz')
+```
 
-# Once the library is initialized, the following operations are supported:
+
+Once the library is initialized, the following operations are supported:
+
+```ruby
 database.find(name: 'AudioZero', version: '1.0.1') do |audio_zero|
   audio_zero.website        #=> http://arduino.cc/en/Reference/Audio
   audio_zero.architectures  #=> [ 'samd' ] 
-  audio_zero.download!(to: '/tmp', validations: [ :checksum, :schema ] )
-  # => true (will be downloaded to /tmp/AudioZero)
+end
+```
+
+You can also interate over multiple matches the same way:
+
+```ruby
+database.find(name: 'AudioZero') do |match|
+  puts match.name # => 'AudioZero'
+  puts match.version # => will print all versions of the library available
+end
+```
+
+or, just grab the return value from #find, which is always an array.
+
+```ruby
+all_versions = database.find(name: 'AudioZero')
+# => [ Arduino::Library::Model<name: AudioZero, version: '1.0.1',... >, .. ]
+```
+
+### Use `Arduino::Library::Model` to load a single library definition
+
+You can use class methods `.from_json_file` or `.from_hash` to instantiate library models:
+
+```ruby
+require 'arduino/library'
+
+json_file = 'spec/fixtures/audio_zero.json'
+
+model = Arduino::Library::Model.from_json_file(json_file)
+model.name #=> 'AudioZero'
+```
+
+### Using Presenters to Generate Alternative Representations
+
+```ruby
+props = Arduino::Library::Presenters::Properties.new(model).present
+File.open('/tmp/audio_zero.properties', 'w') do |f|
+   f.write(props)
 end
 
-# Once the library is initialized, the following operations are supported:
-database.find(name: 'AudioZero') do |audio_zero_versions|
-  audio_zero_versions.last.version # => '1.0.1'
-  audio_zero_versions.size         # => 12
-  audio_zero_versions.last.class   # => Arduino::Library::Properties
-end
+# this creates a file in the format:
 
-database.categories # => [ "Display",
-                      #      "Communication",
-                      #      "Signal Input/Output",
-                      #      "Sensors",
-                      #      "Device Control",
-                      #      "Timing",
-                      #      "Data Storage",
-                      #      "Data Processing",
-                      #      "Other"]
+# name=AudioZero
+# version=1.0.1
+# etc.
 ```
 
 ## Development
