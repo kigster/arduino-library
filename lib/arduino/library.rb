@@ -51,3 +51,5 @@ module Arduino
   end
 end
 
+Arduino::Library.extend(Arduino::Library)
+

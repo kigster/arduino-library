@@ -32,9 +32,16 @@ Or install it yourself as:
 Current version only contains Ruby-based API and is meant to be consumed by other projects (in particularly, check out [Arli](https://github.com/kigster/arli) — a command-line tool and an Arduino Library Manager and installer). This project is invaluable if you are you using, for example, [arduino-cmake](https://github.com/arduino-cmake/arduino-cmake) project to build and upload your Arduino Code.
 
 
-### Using the top-level DSL
+### Using the top-level module
 
-If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` classes and modules, you can include the top level modules and use it's methods in your current context:
+If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` sub-classes and sub-modules, you can use the top level module, which proxies several shortcut methods.
+
+You can access these methods in two different ways:
+
+  1. As class methods on `Arduino::Library`, for example `Arduino::Library.db_default`
+  2. By including the top-level module in your context, and using methods as instance methods in the current context, eg. `#db_default`
+
+Below we'll focus on the second usage, but if you prefer to use the first syntax, it's there and available for you.
 
 ```ruby
 require 'arduino/library'
