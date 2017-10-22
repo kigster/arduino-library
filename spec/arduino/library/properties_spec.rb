@@ -3,7 +3,7 @@ require 'json'
 
 RSpec.describe Arduino::Library::Properties do
   context '#initialize' do
-    let(:schema) { described_class.schema }
+    let(:schema) { Arduino::Library::Types.schema }
 
     let(:file) { 'spec/fixtures/audio_zero.json' }
     let(:hash) { JSON.load(File.read(file)) }

@@ -2,21 +2,15 @@ require_relative 'types'
 
 module Arduino
   module Library
-
+    # This class represents a single entry into the library-index.json file,
+    # in other words — a `library.properties` file.
     class Properties < Dry::Struct
+      # noinspection RubyResolve
       constructor_type :symbolized
 
       Types::LIBRARY_PROPERTIES.each_pair do |field, type|
         self.attribute field, eval(type)
       end
-
-      class << self
-        attr_accessor :schema
-      end
-
-      hash = Types::LIBRARY_PROPERTIES.dup
-      hash.each { |attribute, type| hash[attribute] = eval(type) }
-      self.schema = Types::Hash.symbolized(hash)
     end
   end
 end

@@ -93,6 +93,15 @@ module Arduino
         includes:        'Types::Json::Array.member(Types::FileName).optional',
       }.freeze
 
+      class << self
+        attr_accessor :schema
+      end
+
+      # Let's keep the original hash intact; otherwise dry-struct munges it.
+      hash = LIBRARY_PROPERTIES.dup
+      hash.each { |attribute, type| hash[attribute] = eval(type) }
+
+      self.schema = Types::Hash.symbolized(hash)
     end
   end
 end
