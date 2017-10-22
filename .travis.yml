@@ -1,5 +1,5 @@
 sudo: false
-environment:
+env:
   global:
     - CI=TRAVIS
     - CC_TEST_REPORTER_ID=0e339f5c9d1bbcceab27065342b2e22535bb469bd083a6f44ddb8a262f71f8a4
