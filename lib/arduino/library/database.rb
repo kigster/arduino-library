@@ -50,7 +50,7 @@ module Arduino
                         when String
                           value == check
                         when Regexp
-                          check.matches?(value)
+                          check.match?(value)
                         when Array
                           value.include?(check)
                         else
