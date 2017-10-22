@@ -31,7 +31,83 @@ Or install it yourself as:
 
 Current version only contains Ruby-based API and is meant to be consumed by other projects (in particularly, check out [Arli](https://github.com/kigster/arli) — a command-line tool and an Arduino Library Manager and installer). This project is invaluable if you are you using, for example, [arduino-cmake](https://github.com/arduino-cmake/arduino-cmake) project to build and upload your Arduino Code.
 
-### Downloading Library Index, parsing and searching for a library
+
+### Using the top-level DSL
+
+If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` classes and modules, you can include the top level modules and use it's methods in your current context:
+
+```ruby
+require 'arduino/library'
+include Arduino::Library
+```
+
+#### Using `db_from`
+
+This method returns an instance of the `Arduino::Library::Database` from the provided source:
+
+```ruby
+db_from('library_index.json').size 
+# => 16
+db_from('library_index.json.gz').size
+# => 16
+db_from('http://downloads.arduino.cc/libraries/library_index.json.gz').size 
+# => 3653
+# This required downloading a 400K gzipped file into a temp file, and reading from there.
+```
+
+#### Using `db_default`
+
+This method downloads and returns the official Arduino-maintained index of Arduino libraries.
+
+```ruby
+db_default.size
+# => 3653
+```
+
+#### Using `library_from`
+
+This method reads from a source that can be of many formats (see below) and returns an instantiated `Arduino::Library::Model` for this library. You can then get all library attributes via corresponding methods:
+
+```ruby
+library_from('spec/fixtures/audio_zero.json').name 
+# => 'AudioZero'
+library_from('~/Documents/Arduino/Libraries/AudioZero/library.properties').name 
+#=> 'AudioZero'
+library_from('https://raw.githubusercontent.com/PaulStoffregen/DS1307RTC/master/library.properties').name
+#=> 'DS1307RTC'
+```
+
+#### Using `find`
+
+Method `find` is, perhaps, some of the most powerful functionality in this gem. It allows constructing very flexible and precise queries, to match any number of library attributes.
+
+The method has the following signature:
+
+```ruby
+find(database = db_default, **opts)
+```
+
+`opts` is a Hash that you can use to pass attributes with matchers. All matching results are returned as an array of models.
+
+**Examples**
+
+```ruby
+results = find(
+  name: 'AudioZero',
+  author: /konstantin/i,              # regexp supported
+  architectures: [ 'avr' ],           # array is matched if it's a subset
+  version: proc do |value|            # or a proc for max flexibility
+    value.start_with?('1.')
+  end
+)
+
+results.size 
+#=> <whatever number of matches returned>
+```
+
+Note that multiple attributes must ALL match for the library to be included in the result set.
+
+### +Database+: Downloading the index of all libraries, and finding a library
 
 You can load libraries from a local JSON file, or from a remote URL, eg:  
 
@@ -53,7 +129,6 @@ or, load the list from a local JSON file, that can be optionally gzipped (just l
 ```ruby
 database = Arduino::Library::Database.from('library_index.json.gz')
 ```
-
 
 Once the library is initialized, the following operations are supported:
 
@@ -89,18 +164,27 @@ all_versions = database.find(name: 'AudioZero')
 
 ### Use `Arduino::Library::Model` to operate on a single library definition
 
-You can use class methods `.from_json_file` or `.from_hash` to instantiate library models:
+#### Reading Library from an External Source using `.from`
+
+You can use an intelligent class method `.from` that attempts to auto-detect the type of file or URL you are passing as an argument, and use an appropriate parser for each type. 
+
+For example, to read from a JSON file: 
 
 ```ruby
-require 'arduino/library'
-
 json_file = 'spec/fixtures/audio_zero.json'
-
-model = Arduino::Library::Model.from_json_file(json_file)
+model = Arduino::Library::Model.from(json_file)
 model.name #=> 'AudioZero'
 ```
 
-### Using presenters to convert between alternative representations
+Or to read from the `.properties` file:
+
+```ruby
+properties_file = 'spec/fixtures/audio_zero.properties'
+model = Arduino::Library::Model.from(properties_file)
+model.name #=> 'AudioZero'
+```
+
+### Using presenters to convert to alternative representations
 
 #### Properties Presenter
 
@@ -115,17 +199,6 @@ end
 # name=AudioZero
 # version=1.0.1
 # etc.
-```
-
-You can use the same presenter to load from this file format instead:
-
-```ruby
-lib = Arduino::Library::Presenters::Properties.from_file(
-  '~/Documents/Arduino/Libraries/AudioZero/library.properties'
-)
-
-lib.name    #=> 'AudioZero'
-lib.version #=> '1.0.1'
 ```
 
 ## Development
