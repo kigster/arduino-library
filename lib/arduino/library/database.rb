@@ -58,7 +58,7 @@ module Arduino
                       when String
                         value == check
                       when Regexp
-                        check.match?(value)
+                        check =~ /#{value}/
                       when Array
                         value = value.split(',') unless value.is_a?(Array)
                         value.eql?(check) || value.include?(check) || value.first == '*'
