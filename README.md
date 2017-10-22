@@ -78,7 +78,7 @@ all_versions = database.find(name: 'AudioZero')
 # => [ Arduino::Library::Model<name: AudioZero, version: '1.0.1',... >, .. ]
 ```
 
-### Use `Arduino::Library::Model` to load a single library definition
+### Use `Arduino::Library::Model` to operate on a single library definition
 
 You can use class methods `.from_json_file` or `.from_hash` to instantiate library models:
 
@@ -91,7 +91,9 @@ model = Arduino::Library::Model.from_json_file(json_file)
 model.name #=> 'AudioZero'
 ```
 
-### Using Presenters to Generate Alternative Representations
+### Using presenters to convert between alternative representations
+
+#### Properties Presenter
 
 ```ruby
 props = Arduino::Library::Presenters::Properties.new(model).present
@@ -104,6 +106,17 @@ end
 # name=AudioZero
 # version=1.0.1
 # etc.
+```
+
+You can use the same presenter to load from this file format instead:
+
+```ruby
+lib = Arduino::Library::Presenters::Properties.from_file(
+  '~/Documents/Arduino/Libraries/AudioZero/library.properties'
+)
+
+lib.name    #=> 'AudioZero'
+lib.version #=> '1.0.1'
 ```
 
 ## Development
