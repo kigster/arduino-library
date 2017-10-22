@@ -14,7 +14,7 @@ module Arduino
       extend Forwardable
       include Utilities
 
-      def_delegators :@db_list, *(Array.new.methods - Object.methods)
+      def_delegators :@db_list, *(Array.new.methods - Object.methods - [:search])
 
       class << self
         alias from new
@@ -32,13 +32,13 @@ module Arduino
         load_json
       end
 
-      # Usage: find(attr1: value, attr2: /regexp/, ... )
-      def find(**opts)
+      # Usage: search(attr1: value, attr2: /regexp/, ... )
+      def search(**opts)
         limit = opts[:limit]
         opts.delete(:limit)
         match_list = []
 
-        db_list.find do |entry|
+        db_list.select do |entry|
           matches = entry_matches?(entry, opts)
           match_list << entry if matches
           break if limit && match_list.size >= limit

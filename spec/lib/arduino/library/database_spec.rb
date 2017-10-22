@@ -26,15 +26,15 @@ RSpec.describe Arduino::Library::Database do
       let(:file_or_url) { gzip_file }
       its(:size) { should eq 16 }
 
-      context '#find' do
+      context '#search' do
         let(:local_audio_zero) { Arduino::Library::Model.from_json_file('spec/fixtures/audio_zero.json') }
 
-        let(:audio_zero) { db.find(name: 'AudioZero', version: '1.0.1') }
+        let(:audio_zero) { db.search(name: 'AudioZero', version: '1.0.1') }
         it 'should find our AudioZero library' do
           expect(audio_zero.first.to_hash).to eql(local_audio_zero.to_hash)
         end
         it 'should yield if block given' do
-          db.find(name: 'AudioZero', version: '1.0.1') do |library|
+          db.search(name: 'AudioZero', version: '1.0.1') do |library|
             expect(library.version).to eq('1.0.1')
             expect(library.name).to eq('AudioZero')
           end
@@ -43,7 +43,7 @@ RSpec.describe Arduino::Library::Database do
         context 'various finder types' do
           let(:name) { 'AudioZero' }
           let(:version) { '1.0.1' }
-          subject(:result) { db.find(name: name, version: version_argument).first }
+          subject(:result) { db.search(name: name, version: version_argument).first }
 
           context 'String' do
             let(:version_argument) { '1.0.1' }
@@ -65,7 +65,7 @@ RSpec.describe Arduino::Library::Database do
 
           context 'Array' do
             let(:architectures) { %w(avr) }
-            subject(:results) { db.find(architectures: architectures) }
+            subject(:results) { db.search(architectures: architectures) }
             it { is_expected.to_not be_nil }
             its(:size) { should eq 7 }
             context 'resulting array' do
@@ -74,13 +74,12 @@ RSpec.describe Arduino::Library::Database do
               its(:last) { should eq '*' }
               its(:size) { should eq 2 }
             end
-
           end
         end
       end
 
       context 'from a default url', ci_only: true do
-        let(:db) { described_class.new }
+        let(:db) { described_class.default }
         its(:size) { should > 3600 }
       end
 

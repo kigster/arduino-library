@@ -47,10 +47,15 @@ You can access these methods in two different ways:
 
 Below we'll focus on the second usage, but if you prefer to use the first syntax, it's there and available for you.
 
+You can require the library for use in the DSL:
+
 ```ruby
-require 'arduino/library'
-include Arduino::Library
+class Foo
+  # this loads the library, and includes its methods in the current context
+  require 'arduino/library/include
+end
 ```
+
 
 #### Using `db_from`
 
@@ -88,14 +93,14 @@ library_from('https://raw.githubusercontent.com/PaulStoffregen/DS1307RTC/master/
 #=> 'DS1307RTC'
 ```
 
-#### Using `find`
+#### Using `search`
 
-Method `find` is, perhaps, some of the most powerful functionality in this gem. It allows constructing very flexible and precise queries, to match any number of library attributes.
+Method `search` is, perhaps, some of the most powerful functionality in this gem. It allows constructing very flexible and precise queries, to match any number of library attributes.
 
 The method has the following signature:
 
 ```ruby
-find(database = db_default, **opts)
+search(database = db_default, **opts)
 ```
 
 `opts` is a Hash that you can use to pass attributes with matchers. All matching results are returned as an array of models.
@@ -103,11 +108,18 @@ find(database = db_default, **opts)
 **Examples**
 
 ```ruby
-results = find(
-  name: 'AudioZero',
-  author: /konstantin/i,              # regexp supported
-  architectures: [ 'avr' ],           # array is matched if it's a subset
-  version: proc do |value|            # or a proc for max flexibility
+results = search(
+  # direct string equality
+  name:           'AudioZero',
+  
+  # regexp matching is fully supported 
+  author:         /konstantin/i,              
+  
+ # array is matched if it's a subset or equality, or if library has '*'
+  architectures:  [ 'avr' ],
+  
+  # or a proc for max flexibility
+  version:        proc do |value|
     value.start_with?('1.')
   end
 )
@@ -120,7 +132,7 @@ Note that multiple attributes must ALL match for the library to be included in t
 
 ### `Arduino::Library::Database`
 
-> Downloading the index of all libraries, and finding a library.
+> Downloading the index of all libraries, and searching for a library.
 
 You can load libraries from a local JSON file, or from a remote URL, eg:  
 
@@ -146,32 +158,32 @@ database = Arduino::Library::Database.from('library_index.json.gz')
 Once the library is initialized, the following operations are supported:
 
 ```ruby
-database.find(name: 'AudioZero', version: '1.0.1') do |audio_zero|
+database.search(name: 'AudioZero', version: '1.0.1') do |audio_zero|
   audio_zero.website        #=> http://arduino.cc/en/Reference/Audio
   audio_zero.architectures  #=> [ 'samd' ] 
 end
 ```
 
-You can pass any of the attributes to #find, and the value can be a `String` (in which case only equality matches), or a regular expression, eg:
+You can pass any of the attributes to #search, and the value can be a `String` (in which case only equality matches), or a regular expression, eg:
 
 ```ruby
-database.find(author: "Paul Stoffregen").size #=> 21
-database.find(author: /stoffregen/i).size     #=> 33
+database.search(author: "Paul Stoffregen").size #=> 21
+database.search(author: /stoffregen/i).size     #=> 33
 ```
 
 You interate over multiple using either a block:
 
 ```ruby
-database.find(name: 'AudioZero') do |match|
+database.search(name: 'AudioZero') do |match|
   puts match.name # => 'AudioZero'
   puts match.version # => will print all versions of the library available
 end
 ```
 
-or, just grab the return value from `#find`, which is always an array.
+or, just grab the return value from `#search`, which is always an array.
 
 ```ruby
-all_versions = database.find(name: 'AudioZero')
+all_versions = database.search(name: 'AudioZero')
 # => [ Arduino::Library::Model<name: AudioZero, version: '1.0.1',... >, .. ]
 ```
 

@@ -43,7 +43,7 @@ module Arduino
         end
 
         def find(**opts)
-          database.find(**opts)
+          database.search(**opts)
         end
 
         # @param [Object] source — file name or a URL to JSON or .properties file
@@ -90,7 +90,7 @@ module Arduino
               end
             when NilClass
               if opts && opts[:name] && opts[:version]
-                find(**opts)
+                search(**opts)
               end
           end
         end

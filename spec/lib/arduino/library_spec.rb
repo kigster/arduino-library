@@ -43,10 +43,17 @@ RSpec.describe Arduino::Library do
     subject(:db) { db_from('spec/fixtures/library_index.json.gz') }
     its(:size) { should eq(16)}
 
-    context '#find' do
-      subject(:results) { find(db, name: 'AudioZero', version: '1.0.1').first }
+    context '#search' do
+      subject(:results) { search(db_default, name: 'AudioZero', version: '1.0.1').first }
       its(:name) { should eq 'AudioZero'}
       its(:version) { should eq '1.0.1'}
+    end
+
+    context '#search the default DB', ci_only: true do
+      let(:db) { db_default }
+      subject(:results) { search(db, name: /adafruit esp8266/i, version: '1.0.0' ).first }
+      its(:name) { should eq 'Adafruit ESP8266'}
+      its(:version) { should eq '1.0.0'}
     end
   end
 end

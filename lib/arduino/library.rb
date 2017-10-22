@@ -43,10 +43,12 @@ module Arduino
     #     value.start_with?('1.') )
     #   end
     #
-    # @param [Hash] opts — hash of attribute names and values to match
-    def find(database = db_default, **opts)
+    # @param [Database] database db instance (or skip it to use the default)
+    # @param [Hash] opts hash of attribute names and values to match
+    # @return Array<Model> array of models that match
+    def search(database = db_default, **opts)
       Arduino::Library::Model.database = database
-      Arduino::Library::Model.from(nil, **opts)
+      database.search(**opts)
     end
   end
 end
