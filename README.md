@@ -27,20 +27,20 @@ Or install it yourself as:
 
 Current version only contains Ruby-based API and is meant to be consumed by other projects (in particularly, check out [Arli](https://github.com/kigster/arli) — a command-line tool and an Arduino Library Manager and installer). This project is invaluable if you are you using, for example, [arduino-cmake](https://github.com/arduino-cmake/arduino-cmake) project to build and upload your Arduino Code.
 
-### Load from JSON
+### Load List of Libraries from a JSON Index
 
 ```ruby
 # You can load libraries from a local JSON file, or from a remote URL, eg:  
-library = Arduino::Library.from('http://downloads.arduino.cc/libraries/library_index.json.gz')
+database = Arduino::Library.from('http://downloads.arduino.cc/libraries/library_index.json.gz')
 
 # or, since the above link is the default location of Arduino-maintained libraries,
-library = Arduino::Library.default # is equivalent to the above
+database = Arduino::Library.default # is equivalent to the above
 
 # or, load it from a local JSON file, that can be optionally gzipped: 
-library = Arduino::Library.from('library_index.json.gz')
+database = Arduino::Library.from('library_index.json.gz')
 
 # Once the library is initialized, the following operations are supported:
-library.find(name: 'AudioZero', version: '1.0.1') do |audio_zero|
+database.find(name: 'AudioZero', version: '1.0.1') do |audio_zero|
   audio_zero.website        #=> http://arduino.cc/en/Reference/Audio
   audio_zero.architectures  #=> [ 'samd' ] 
   audio_zero.download!(to: '/tmp', validations: [ :checksum, :schema ] )
@@ -48,13 +48,13 @@ library.find(name: 'AudioZero', version: '1.0.1') do |audio_zero|
 end
 
 # Once the library is initialized, the following operations are supported:
-library.find(name: 'AudioZero') do |audio_zero_versions|
+database.find(name: 'AudioZero') do |audio_zero_versions|
   audio_zero_versions.last.version # => '1.0.1'
   audio_zero_versions.size         # => 12
   audio_zero_versions.last.class   # => Arduino::Library::Properties
 end
 
-library.categories # => [ "Display",
+database.categories # => [ "Display",
                       #      "Communication",
                       #      "Signal Input/Output",
                       #      "Sensors",
