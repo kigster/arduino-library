@@ -114,7 +114,9 @@ results.size
 
 Note that multiple attributes must ALL match for the library to be included in the result set.
 
-### +Database+: Downloading the index of all libraries, and finding a library
+### `Arduino::Library::Database`
+
+> Downloading the index of all libraries, and finding a library.
 
 You can load libraries from a local JSON file, or from a remote URL, eg:  
 
@@ -169,7 +171,9 @@ all_versions = database.find(name: 'AudioZero')
 # => [ Arduino::Library::Model<name: AudioZero, version: '1.0.1',... >, .. ]
 ```
 
-### Use `Arduino::Library::Model` to operate on a single library definition
+### `Arduino::Library::Model` 
+
+> Use this class to operate on a single library.
 
 #### Reading Library from an External Source using `.from`
 
@@ -191,9 +195,11 @@ model = Arduino::Library::Model.from(properties_file)
 model.name #=> 'AudioZero'
 ```
 
-### Using presenters to convert to alternative representations
+### Presenters
 
-#### Properties Presenter
+Presenters are there to convert to and from a particular format.
+
+#### `.properties` Presenter
 
 ```ruby
 props = Arduino::Library::Presenters::Properties.new(model).present
