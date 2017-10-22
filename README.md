@@ -62,7 +62,14 @@ database.find(name: 'AudioZero', version: '1.0.1') do |audio_zero|
 end
 ```
 
-You can also interate over multiple matches the same way:
+You can pass any of the attributes to #find, and the value can be a `String` (in which case only equality matches), or a regular expression, eg:
+
+```ruby
+database.find(author: "Paul Stoffregen").size #=> 21
+database.find(author: /stoffregen/i).size     #=> 33
+```
+
+You interate over multiple using either a block:
 
 ```ruby
 database.find(name: 'AudioZero') do |match|
@@ -71,7 +78,7 @@ database.find(name: 'AudioZero') do |match|
 end
 ```
 
-or, just grab the return value from #find, which is always an array.
+or, just grab the return value from `#find`, which is always an array.
 
 ```ruby
 all_versions = database.find(name: 'AudioZero')
