@@ -33,6 +33,11 @@ RSpec.describe Arduino::Library::Properties do
         its(:size) { should eq 4925 }
         its(:archiveFileName) { should eq 'AudioZero-1.0.1.zip' }
       end
+
+      context '.from_json' do
+        subject(:props) { described_class.from_json_file(file) }
+        its(:name) { should eq 'AudioZero' }
+      end
     end
 
     context 'reading from the index multi-library JSON' do
@@ -51,6 +56,11 @@ RSpec.describe Arduino::Library::Properties do
         it 'should properly initialize Properties#url' do
           expect(props.url).to eq(hash['url'])
         end
+      end
+
+      context '.database' do
+        subject(:database) { described_class.database(file) }
+        its(:size) { should eq 16 }
       end
     end
   end
