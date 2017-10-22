@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/kigster/arduino-library.svg?branch=master)](https://travis-ci.org/kigster/arduino-library)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/0da01eba1b556826a231/test_coverage)](https://codeclimate.com/github/kigster/arduino-library/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0da01eba1b556826a231/maintainability)](https://codeclimate.com/github/kigster/arduino-library/maintainability)
 
 # Arduino::Library
 
