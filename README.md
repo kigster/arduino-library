@@ -1,12 +1,10 @@
+[![Gem Version](https://badge.fury.io/rb/arduino-library.svg)](https://badge.fury.io/rb/arduino-library)
 [![Build Status](https://travis-ci.org/kigster/arduino-library.svg?branch=master)](https://travis-ci.org/kigster/arduino-library)
-[![Test Coverage](https://codeclimate.com/github/kigster/arduino-library/badges/coverage.svg)](https://codeclimate.com/github/kigster/arduino-library/coverage)
-[![Code Climate](https://codeclimate.com/github/kigster/arduino-library/badges/gpa.svg)](https://codeclimate.com/github/kigster/arduino-library)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0da01eba1b556826a231/maintainability)](https://codeclimate.com/github/kigster/arduino-library/maintainability)
+[![Downloads](http://ruby-gem-downloads-badge.herokuapp.com/arduino-library?type=total)](https://rubygems.org/gems/arduino-library)
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/0da01eba1b556826a231/test_coverage)](https://codeclimate.com/github/kigster/arduino-library/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/0da01eba1b556826a231/maintainability)](https://codeclimate.com/github/kigster/arduino-library/maintainability)
-
-[![Gem Version](https://badge.fury.io/rb/arduino-library.svg)](https://badge.fury.io/rb/arduino-library)
-[![Downloads](http://ruby-gem-downloads-badge.herokuapp.com/arduino-library?type=total)](https://rubygems.org/gems/arduino-library)
+[![Test Coverage](https://codeclimate.com/github/kigster/arduino-library/badges/coverage.svg)](https://codeclimate.com/github/kigster/arduino-library/coverage)
 
 # Arduino::Library
 
