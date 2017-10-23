@@ -33,6 +33,8 @@ module Arduino
         self.url  = self.class.library_index_url
         self.path = self.class.library_index_path
 
+        FileUtils.mkpath(File.basename(path))
+
         download_if_needed!
 
         self.local_file = open_plain_or_gzipped(path)
