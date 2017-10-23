@@ -2,7 +2,13 @@ require 'open-uri'
 
 module Arduino
   module Library
-    DEFAULT_ARDUINO_LIBRARY_INDEX_URL = 'http://downloads.arduino.cc/libraries/library_index.json.gz'
+    DEFAULT_ARDUINO_LIBRARY_INDEX_URL  =
+      'http://downloads.arduino.cc/libraries/library_index.json.gz'
+    DEFAULT_ARDUINO_LIBRARY_PATH       =
+      ENV['ARDUINO_CUSTOM_LIBRARY_PATH'] || (ENV['HOME'] + '/Documents/Arduino/Libraries')
+    DEFAULT_ARDUINO_LIBRARY_INDEX_PATH =
+      ENV['ARDUINO_LIBRARY_INDEX_PATH'] ||
+        (ENV['HOME'] + '/Documents/Arduino/Libraries/index.json.gz')
   end
 end
 
@@ -12,6 +18,7 @@ require 'arduino/library/types'
 # noinspection RubyResolve
 require 'arduino/library/model'
 require 'arduino/library/database'
+require 'arduino/library/default_database'
 
 module Arduino
   module Library
@@ -21,7 +28,7 @@ module Arduino
     end
 
     def db_default
-      Database.default
+      DefaultDatabase.instance
     end
 
     #

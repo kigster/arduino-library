@@ -77,12 +77,6 @@ RSpec.describe Arduino::Library::Database do
           end
         end
       end
-
-      context 'from a default url', ci_only: true do
-        let(:db) { described_class.default }
-        its(:size) { should > 3600 }
-      end
-
     end
 
   end

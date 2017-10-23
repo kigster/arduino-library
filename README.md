@@ -36,6 +36,49 @@ Or install it yourself as:
 Current version only contains Ruby-based API and is meant to be consumed by other projects (in particularly, check out [Arli](https://github.com/kigster/arli) — a command-line tool and an Arduino Library Manager and installer). This project is invaluable if you are you using, for example, [arduino-cmake](https://github.com/arduino-cmake/arduino-cmake) project to build and upload your Arduino Code.
 
 
+### Configuration
+
+The gem database can be configured to download the default database from a custom URL, 
+keep a local cache in a custom file. It always downloads the index locally, and next time
+it's invoked, the local file is used (if and only if it's size is identical 
+to the remote file).
+
+You can change the configuration in two ways:
+
+ 1. Set environment variables before invoking the gem
+ 2. Configure the `DefaultDatabase` class variables
+
+#### Environment Variables
+
+ * `ARDUINO_CUSTOM_LIBRARY_PATH` can be used to change local top-level path to the libraries folder.
+ * `ARDUINO_LIBRARY_INDEX_PATH` can be used to change the location of the cached index file.
+
+#### Class Variables
+
+```ruby
+require 'arduino/library'
+Arduino::Library::DefaultDatabase.library_index_path =
+Arduino::Library::DefaultDatabase.library_index_url  =
+Arduino::Library::DefaultDatabase.library_path       =
+
+# then reload the database:
+Arduino::Library::DefaultDatabase.instance.setup
+```
+
+#### Default Values:
+
+```ruby
+DEFAULT_ARDUINO_LIBRARY_INDEX_URL  =
+   'http://downloads.arduino.cc/libraries/library_index.json.gz'
+   
+DEFAULT_ARDUINO_LIBRARY_PATH       =
+    ENV['ARDUINO_CUSTOM_LIBRARY_PATH'] || (ENV['HOME'] + '/Documents/Arduino/Libraries')
+
+DEFAULT_ARDUINO_LIBRARY_INDEX_PATH =
+    ENV['ARDUINO_LIBRARY_INDEX_PATH'] ||
+    (ENV['HOME'] + '/Documents/Arduino/Libraries/index.json.gz')
+```
+
 ### Using the top-level module
 
 If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` sub-classes and sub-modules, you can use the top level module, which proxies several shortcut methods.
@@ -146,7 +189,7 @@ database = Arduino::Library::Database.from(
 or, since the above link happens to be the default location of Arduino-maintained librarie index file, you can use the `default` method instead:
 
 ```ruby
-database = Arduino::Library::Database.default
+database = Arduino::Library::DefaultDatabase.instance
 ```
 
 or, load the list from a local JSON file, that can be optionally gzipped (just like the URL):

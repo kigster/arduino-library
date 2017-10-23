@@ -39,7 +39,7 @@ module Arduino
         end
 
         def database
-          @database ||= Database.default
+          @database ||= DefaultDatabase.instance
         end
 
         def find(**opts)
@@ -56,7 +56,7 @@ module Arduino
         #
         #       Arduino::Library::Model.database = Database.from(file)
         #
-        # otherwise it defaults to the default database, +Database.default+.
+        # otherwise it defaults to the default database, +DefaultDatabase.instance+.
         #
         # @param [Hash] opts   — search parameters to the current database
         #

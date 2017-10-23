@@ -1,33 +1,30 @@
-require 'open-uri'
-require 'zlib'
 require 'json'
 require 'forwardable'
-require 'arduino/library'
 require 'arduino/library/model'
+require 'arduino/library/utilities'
+require 'colored2'
 
 module Arduino
   module Library
-
     # This class represents a single entry into the library-index.json file,
     # in other words — a `library.properties` file.
     class Database
-      extend Forwardable
-      include Utilities
 
-      def_delegators :@db_list, *(Array.new.methods - Object.methods - [:search])
+      include Utilities
+      extend Forwardable
 
       class << self
         alias from new
-
-        def default
-          @default ||= new
-        end
       end
+
+      def_delegators :@db_list,
+                     *(Array.new.methods -
+                       Object.methods - [:search])
 
       attr_accessor :local_file,
                     :db_list
 
-      def initialize(file_or_url = Arduino::Library::DEFAULT_ARDUINO_LIBRARY_INDEX_URL)
+      def initialize(file_or_url)
         self.local_file = read_file_or_url(file_or_url)
         load_json
       end
@@ -48,25 +45,25 @@ module Arduino
         match_list
       end
 
-      private
+      protected
 
       def entry_matches?(entry, opts)
         matches = true
         opts.each_pair do |attr, check|
           value   = entry.send(attr)
           matches &= case check
-                      when String
-                        value == check
-                      when Regexp
-                        value =~ check
-                      when Array
-                        value = value.split(',') unless value.is_a?(Array)
-                        value.eql?(check) || value.include?(check) || value.first == '*'
-                      when Proc
-                        check.call(value)
-                      else
-                        raise InvalidArgument, "Class #{check.class.name} is unsupported for value checks"
-                    end
+                       when String
+                         value == check
+                       when Regexp
+                         value =~ check
+                       when Array
+                         value = value.split(',') unless value.is_a?(Array)
+                         value.eql?(check) || value.include?(check) || value.first == '*'
+                       when Proc
+                         check.call(value)
+                       else
+                         raise InvalidArgument, "Class #{check.class.name} is unsupported for value checks"
+                     end
           break unless matches
         end
       end
@@ -74,7 +71,7 @@ module Arduino
       private
 
       def load_json
-        hash = JSON.load(local_file.read)
+        hash         = JSON.load(local_file.read)
         self.db_list = hash['libraries'].map { |lib| Model.from_hash(lib) }
       end
     end
