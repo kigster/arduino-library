@@ -33,7 +33,7 @@ module Arduino
         self.url  = self.class.library_index_url
         self.path = self.class.library_index_path
 
-        FileUtils.mkpath(File.basename(path))
+        FileUtils.mkpath(File.dirname(path))
 
         download_if_needed!
 
