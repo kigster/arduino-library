@@ -37,8 +37,7 @@ Current version only contains Ruby-based API and is meant to be consumed by othe
 
 Please take a look at the following screencast:
 
-[![asciicast](https://asciinema.org/a/WCXYjhFLFc6UJq4Uc8v25GnSb.png)](https://asciinema.org/a/WCXYjhFLFc6UJq4Uc8v25GnSb)
-
+[![asciicast](https://asciinema.org/a/145645.png)](https://asciinema.org/a/145645)
 
 ### Configuration
 
