@@ -85,26 +85,27 @@ DEFAULT_ARDUINO_LIBRARY_INDEX_PATH =
 
 ### Finding and Resolving Arduino Libraries
 
-If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` sub-classes and sub-modules, you can use the top level module, which proxies several shortcut methods.
+Top level module `Arduino::Library` provides a convenient Facáde into the library functionality. Therefore you can use the library by calling these methods directly, such as `Arduino::Library.library_from(..)` or by including the module in your current context.
 
-You can access these methods in two different ways:
+Below we'll include the top level module, and use the shortcut methods to explore available functionality. That said, if you prefer not to include the top level module, you can call the same functions directly on the module itself.
 
-  1. By including the top-level module in your context, and using methods as instance methods in the current context, eg. `#db_default`
-  2. As class methods on `Arduino::Library`, for example `Arduino::Library.db_default`
-
-Below we'll focus on the first usage, but if you prefer to use the first syntax, it's there and available for you.
-
-You can require the library for use in the DSL:
+There are two ways to include the DSL in your context:
 
 ```ruby
+require 'arduino/library'
 class Foo
-  # this loads the library, and includes its methods in the current context
-  require 'arduino/library/include
-  
-  # alternatively
   include Arduino::Library::InstanceMethods
 end
 ```
+
+Or, perhaps easier:
+
+```ruby
+class Foo
+  require 'arduino/library/include
+end
+```
+### Facáde Methods
 
 #### Using `db_from`
 
