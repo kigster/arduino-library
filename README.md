@@ -57,12 +57,15 @@ You can change the configuration in two ways:
 
 ```ruby
 require 'arduino/library'
-Arduino::Library::DefaultDatabase.library_index_path =
-Arduino::Library::DefaultDatabase.library_index_url  =
-Arduino::Library::DefaultDatabase.library_path       =
+
+Arduino::Library::DefaultDatabase.library_index_path   
+  = "#{ENV['HOME']}/Arduino"
+
+# Arduino::Library::DefaultDatabase.library_index_url  = ... 
+# Arduino::Library::DefaultDatabase.library_path       = ...
 
 # then reload the database:
-Arduino::Library::DefaultDatabase.instance.setup
+# Arduino::Library::DefaultDatabase.instance.setup
 ```
 
 #### Default Values:
@@ -98,7 +101,6 @@ class Foo
   require 'arduino/library/include
 end
 ```
-
 
 #### Using `db_from`
 
@@ -149,6 +151,15 @@ search(database = db_default, **opts)
 `opts` is a Hash that you can use to pass attributes with matchers. All matching results are returned as an array of models.
 
 **Examples**
+
+Here is searching for 'AudioZero' and sorting results by the version number:
+
+```ruby
+search(name: 'AudioZero').sort.first.version #=> "1.0.0"
+search(name: 'AudioZero').sort.last.version  #=> "1.1.1"
+```
+
+You can search by any attribute, not just name and number:
 
 ```ruby
 results = search(

@@ -1,5 +1,7 @@
 require_relative 'types'
 require_relative 'utilities'
+require_relative 'instance_methods'
+require_relative 'resolver'
 require 'json'
 
 module Arduino
@@ -7,6 +9,7 @@ module Arduino
     # This class represents a single entry into the library-index.json file,
     # in other words — a `library.properties` file.
     class Model < Dry::Struct
+      include Comparable
 
       # noinspection RubyResolve
       constructor_type :symbolized
@@ -15,8 +18,30 @@ module Arduino
         self.attribute field, eval(type)
       end
 
+      # Instance Methods
+
+      # Convert a version such as '1.44.3' into a number '1044003' for easy
+      # sorting and comparison.
+      def version_to_i
+        if version
+          first, second, third = version.split(/\./).map(&:to_i)
+          10**6 * (first || 0) + 10**3 * (second || 0) + (third || 0)
+        else
+          0
+        end
+      rescue
+        0
+      end
+
+      def <=>(another)
+        self.version_to_i <=> another.version_to_i
+      end
+
+      # Class Methods
+
       class << self
         include Utilities
+        include InstanceMethods
 
         attr_writer :database
 
@@ -29,7 +54,7 @@ module Arduino
         end
 
         def from_json_file(file_or_url)
-          file  = read_file_or_url(file_or_url)
+          file = read_file_or_url(file_or_url)
           from_json(file.read)
         end
 
@@ -75,26 +100,26 @@ module Arduino
         #
         # @return [Model | Array<Model> ] — array for search, otherwise a model
         def from(source = nil, **opts)
-          case source
-            when Hash
-              from_hash(source)
-            when String
-              if source =~ /^{/m
-                from_json(source)
-              elsif File.exist?(source)
-                if source =~ /\.json(\.gz)?$/i
-                  from_json_file(source)
-                elsif source =~ /\.properties(\.gz)?$/i
-                  from_properties_file(source)
-                end
-              end
-            when NilClass
-              if opts && opts[:name] && opts[:version]
-                search(**opts)
-              end
-          end
+          model = case source
+                    when Hash
+                      from_hash(source)
+                    when String
+                      if source =~ /^{/m
+                        from_json(source)
+                      elsif File.exist?(source)
+                        if source =~ /\.json(\.gz)?$/i
+                          from_json_file(source)
+                        elsif source =~ /\.properties(\.gz)?$/i
+                          from_properties_file(source)
+                        end
+                      end
+                    when NilClass
+                      if opts && opts[:name] && opts[:version]
+                        search(**opts)
+                      end
+                  end
+          model ? Resolver.resolve(model) : model
         end
-
       end
     end
   end

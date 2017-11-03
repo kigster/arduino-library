@@ -12,8 +12,8 @@ RSpec.describe Arduino::Library::Database do
 
     subject(:db_list) { db.to_a }
 
+    let(:file_or_url) { file }
     context 'from a file' do
-      let(:file_or_url) { file }
       its(:size) { should eq 16 }
     end
 

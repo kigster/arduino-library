@@ -32,6 +32,39 @@ RSpec.describe Arduino::Library::Model do
         its(:checksum) { should eq 'SHA-256:c938f00aceec2f91465d1486b4cd2d3e1299cdc271eb743d2dedcd8c2dd355a8' }
         its(:size) { should eq 4925 }
         its(:archiveFileName) { should eq 'AudioZero-1.0.1.zip' }
+
+        context '#version_to_i' do
+          its(:version) { should eq '1.0.1' }
+          its(:version_to_i) { should eq 1000001 }
+
+          context 'different valid version' do
+            before { hash['version'] = '3.145.10' }
+            its(:version) { should eq '3.145.10' }
+            its(:version_to_i) { should eq 3145010 }
+          end
+
+          context 'bad version' do
+            before { hash['version'] = ugly_version }
+
+            context 'different invalid version' do
+              let(:ugly_version) { 'fdsadsf af jasdf ' }
+              its(:version) { should eq ugly_version }
+              its(:version_to_i) { should eq 0 }
+            end
+
+            context 'different real bad version' do
+              let(:ugly_version) { Array.new }
+              its(:version) { should eq ugly_version }
+              its(:version_to_i) { should eq 0 }
+            end
+
+            context 'different real bad version' do
+              let(:ugly_version) { nil }
+              its(:version) { should eq ugly_version }
+              its(:version_to_i) { should eq 0 }
+            end
+          end
+        end
       end
 
       context 'json' do
@@ -44,10 +77,13 @@ RSpec.describe Arduino::Library::Model do
         context 'auto-detect json' do
           let(:source) { File.read(file) }
           its(:name) { should eq 'AudioZero' }
-
         end
       end
 
+      context 'hash' do
+        subject(:lib) { described_class.from({ name: 'AudioZero', version: '1.0.1'}, {}) }
+        its(:name) { should eq 'AudioZero' }
+      end
     end
 
     context 'reading from the index multi-library JSON' do

@@ -1,3 +1,3 @@
 require 'arduino/library'
 
-include Arduino::Library
+include Arduino::Library::InstanceMethods

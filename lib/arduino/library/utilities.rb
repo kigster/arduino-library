@@ -39,6 +39,8 @@ module Arduino
       end
 
       def download(url, path)
+        debug "dowloading from [#{url.to_s.bold.red}]"
+        debug "             to [#{path.to_s.bold.green}]"
         open(path, 'wb') do |file|
           file << open(url).read
         end
