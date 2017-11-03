@@ -48,24 +48,27 @@ You can change the configuration in two ways:
  1. Set environment variables before invoking the gem
  2. Configure the `DefaultDatabase` class variables
 
-#### Environment Variables
+#### Setting Environment Variables
 
  * `ARDUINO_CUSTOM_LIBRARY_PATH` can be used to change local top-level path to the libraries folder.
  * `ARDUINO_LIBRARY_INDEX_PATH` can be used to change the location of the cached index file.
 
-#### Class Variables
+#### Change Class Variables for `DefaultDatabase` Class
+
+The following class variables can be changed, like so:
 
 ```ruby
-require 'arduino/library'
+Arduino::Library::DefaultDatabase.library_index_url = ''
+```
 
-Arduino::Library::DefaultDatabase.library_index_path   
-  = "#{ENV['HOME']}/Arduino"
+ * `library_index_url` — URL to download compressed JSON index.
+ * `library_index_path` — local path to the cached compressed JSON index.
+ * `library_path` — local top-level folder where your Arduino libraries are.
 
-# Arduino::Library::DefaultDatabase.library_index_url  = ... 
-# Arduino::Library::DefaultDatabase.library_path       = ...
+If you change any of the above, please reload the database with:
 
-# then reload the database:
-# Arduino::Library::DefaultDatabase.instance.setup
+```ruby
+Arduino::Library::DefaultDatabase.instance.setup
 ```
 
 #### Default Values:
@@ -88,10 +91,10 @@ If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` s
 
 You can access these methods in two different ways:
 
-  1. As class methods on `Arduino::Library`, for example `Arduino::Library.db_default`
-  2. By including the top-level module in your context, and using methods as instance methods in the current context, eg. `#db_default`
+  1. By including the top-level module in your context, and using methods as instance methods in the current context, eg. `#db_default`
+  2. As class methods on `Arduino::Library`, for example `Arduino::Library.db_default`
 
-Below we'll focus on the second usage, but if you prefer to use the first syntax, it's there and available for you.
+Below we'll focus on the first usage, but if you prefer to use the first syntax, it's there and available for you.
 
 You can require the library for use in the DSL:
 
@@ -99,6 +102,9 @@ You can require the library for use in the DSL:
 class Foo
   # this loads the library, and includes its methods in the current context
   require 'arduino/library/include
+  
+  # alternatively
+  include Arduino::Library::InstanceMethods
 end
 ```
 
