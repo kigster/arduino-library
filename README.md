@@ -35,6 +35,10 @@ Or install it yourself as:
 
 Current version only contains Ruby-based API and is meant to be consumed by other projects (in particularly, check out [Arli](https://github.com/kigster/arli) — a command-line tool and an Arduino Library Manager and installer). This project is invaluable if you are you using, for example, [arduino-cmake](https://github.com/arduino-cmake/arduino-cmake) project to build and upload your Arduino Code.
 
+Please take a look at the following screencast:
+
+[![asciicast](https://asciinema.org/a/WCXYjhFLFc6UJq4Uc8v25GnSb.png)](https://asciinema.org/a/WCXYjhFLFc6UJq4Uc8v25GnSb)
+
 
 ### Configuration
 
