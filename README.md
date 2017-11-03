@@ -39,14 +39,12 @@ Current version only contains Ruby-based API and is meant to be consumed by othe
 ### Configuration
 
 The gem database can be configured to download the default database from a custom URL, 
-keep a local cache in a custom file. It always downloads the index locally, and next time
-it's invoked, the local file is used (if and only if it's size is identical 
-to the remote file).
+and to cache it in a local file. Next time the lookup is invoked local file is checked first. Library automatically checks the size of the remote index file, and re-downloads it if the file has changed.
 
-You can change the configuration in two ways:
+You can modify the source of the default database and the local cache location using one of two methods:
 
- 1. Set environment variables before invoking the gem
- 2. Configure the `DefaultDatabase` class variables
+ 1. By settin the environment variables before invoking the gem;
+ 2. Or by configuring the `DefaultDatabase` class variables.
 
 #### Setting Environment Variables
 
@@ -85,7 +83,7 @@ DEFAULT_ARDUINO_LIBRARY_INDEX_PATH =
     (ENV['HOME'] + '/Documents/Arduino/Libraries/index.json.gz')
 ```
 
-### Using the top-level module
+### Finding and Resolving Arduino Libraries
 
 If you prefer not to have hard-coded dependencies on the `Arduino::Library::*` sub-classes and sub-modules, you can use the top level module, which proxies several shortcut methods.
 
