@@ -20,6 +20,7 @@ module Arduino
                              'Timing',
                              'Data Storage',
                              'Data Processing',
+                             'Uncategorized',
                              'Other')
 
       Architecture = String.enum(
@@ -81,7 +82,7 @@ module Arduino
         maintainer:      'Types::String',
         sentence:        'Types::String',
         paragraph:       'Types::String',
-        website:         'Types::Url',
+        website:         'Types::String',
         category:        'Types::Category',
         architectures:   'Types::Json::Array.member(Types::Architecture)',
         types:           'Types::Json::Array.member(Types::LibraryTypes)',

@@ -12,7 +12,7 @@ module Arduino
       include Comparable
 
       # noinspection RubyResolve
-      constructor_type :symbolized
+      constructor_type :schema
 
       Types::LIBRARY_PROPERTIES.each_pair do |field, type|
         self.attribute field, eval(type)
