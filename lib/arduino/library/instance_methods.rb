@@ -2,6 +2,9 @@ require 'arduino/library'
 
 module Arduino
   module Library
+    # These are the DSL methods that can be imported by requiring
+    # 'arduino/library/include'
+    #
     module InstanceMethods
       # @param [String] file_or_url — either a local file, or URL, can be gzipped
       def db_from(file_or_url)

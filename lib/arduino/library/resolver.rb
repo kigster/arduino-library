@@ -1,6 +1,5 @@
-require 'arduino/library'
-require 'arduino/library/instance_methods'
-require 'arduino/library/model'
+require_relative 'instance_methods'
+require_relative 'model'
 
 module Arduino
   module Library

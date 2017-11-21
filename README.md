@@ -69,7 +69,7 @@ Arduino::Library::DefaultDatabase.library_index_url = ''
 If you change any of the above, please reload the database with:
 
 ```ruby
-Arduino::Library::DefaultDatabase.instance.setup
+Arduino::Library::DefaultDatabase.reload!
 ```
 
 #### Default Values:
@@ -105,7 +105,7 @@ Or, perhaps easier:
 
 ```ruby
 class Foo
-  require 'arduino/library/include
+  require 'arduino/library/include'
 end
 ```
 ### Facáde Methods
@@ -229,7 +229,7 @@ end
 You can pass any of the attributes to #search, and the value can be a `String` (in which case only equality matches), or a regular expression, eg:
 
 ```ruby
-database.search(author: "Paul Stoffregen").size #=> 21
+database.search(author: 'Paul Stoffregen').size #=> 21
 database.search(author: /stoffregen/i).size     #=> 33
 ```
 

@@ -21,19 +21,7 @@ module Arduino
       end
 
       def backup_previous_library(path)
-        debug "backup previous library: #{path.bold.green}"
-        new_name = nil
-        index    = 0
-
-        loop do
-          index += 1
-
-          new_name = "#{path}.#{index}"
-          break unless File.exist?(new_name)
-          debug "file #{new_name.bold.green} exists, next..."
-          raise 'Too many backup versions created, delete some first' if index > 20
-        end
-
+        new_name = path + ".#{short_time}"
         debug "moving #{path.bold.green}", "to #{new_name.bold.blue}"
         FileUtils.move(path, new_name)
       end
@@ -48,6 +36,10 @@ module Arduino
 
       def debug(*msgs)
         puts "\n" + msgs.join("\n") if ENV['DEBUG']
+      end
+
+      def short_time(time = Time.now)
+        time.strftime('%Y%m%d-%H%M%S')
       end
     end
   end

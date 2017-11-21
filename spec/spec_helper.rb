@@ -5,7 +5,8 @@ SimpleCov.start
 
 require 'arduino/library'
 
-TEMP_INDEX = '/tmp/library_index.json.gz'
+TEMP_INDEX    = '/tmp/library_index.json.gz'
+FIXTURE_INDEX = 'spec/fixtures/library_index.json.gz'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -23,11 +24,14 @@ RSpec.configure do |config|
   end
 
   config.before :all, local_index: true do
-    FileUtils.cp('spec/fixtures/library_index.json.gz', TEMP_INDEX)
+    FileUtils.cp(FIXTURE_INDEX, TEMP_INDEX) unless \
+       File.identical?(FIXTURE_INDEX, TEMP_INDEX)
     Arduino::Library::DefaultDatabase.library_index_path = TEMP_INDEX
-    Arduino::Library::DefaultDatabase.instance.setup
+    Arduino::Library::DefaultDatabase.instance.reload!
   end
   config.after :all, local_index: true do
-    FileUtils.rm_f(TEMP_INDEX)
+    Arduino::Library::DefaultDatabase.library_index_path = TEMP_INDEX
+    Arduino::Library::DefaultDatabase.instance.reload!
+
   end
 end

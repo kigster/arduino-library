@@ -17,19 +17,27 @@ module Arduino
         def instance
           @default ||= self.send(:new)
         end
+
+        def reload!
+          instance.reload!
+        end
+
+        def assign_defaults
+          self.library_index_path ||= DEFAULT_ARDUINO_LIBRARY_INDEX_PATH
+          self.library_index_url  ||= DEFAULT_ARDUINO_LIBRARY_INDEX_URL
+          self.library_path       ||= DEFAULT_ARDUINO_LIBRARY_PATH
+        end
       end
 
-      self.library_index_path ||= DEFAULT_ARDUINO_LIBRARY_INDEX_PATH
-      self.library_index_url  ||= DEFAULT_ARDUINO_LIBRARY_INDEX_URL
-      self.library_path       ||= DEFAULT_ARDUINO_LIBRARY_PATH
+      self.assign_defaults
 
       attr_accessor :url, :path
 
       def initialize
-        setup
+        reload!
       end
 
-      def setup
+      def reload!
         self.url  = self.class.library_index_url
         self.path = self.class.library_index_path
 
