@@ -1,7 +1,7 @@
 require_relative 'types'
 require_relative 'utilities'
 require_relative 'instance_methods'
-require_relative 'resolver'
+require_relative 'finder'
 require 'json'
 
 module Arduino
@@ -18,6 +18,8 @@ module Arduino
         self.attribute field, eval(type)
       end
 
+      SEARCHABLE_FIELDS = %i(name archiveFileName checksum)
+
       # Instance Methods
 
       # Convert a version such as '1.44.3' into a number '1044003' for easy
@@ -31,6 +33,11 @@ module Arduino
         end
       rescue
         0
+      end
+
+      # @returns true if the library has enough data to be searched in the db
+      def partial?
+        self.url.nil? && SEARCHABLE_FIELDS.any?{ |field| self.send(field) }
       end
 
       def <=>(another)
@@ -99,7 +106,7 @@ module Arduino
         #   ends
         #
         # @return [Model | Array<Model> ] — array for search, otherwise a model
-        def from(source = nil, **opts)
+        def from(source = nil, ** opts)
           model = case source
                     when Hash
                       from_hash(source)
@@ -114,11 +121,21 @@ module Arduino
                         end
                       end
                     when NilClass
-                      if opts && opts[:name] && opts[:version]
-                        search(**opts)
+                      if opts
+                        if SEARCHABLE_FIELDS.any?{ |field| opts[field] }
+                          results = search(**opts)
+                          raise "Too many items matched — #{results.size}" if results.size > 1
+                          results ? results.first : nil
+                        else
+                          from_hash(opts)
+                        end
                       end
                   end
-          model ? Resolver.resolve(model) : model
+          if model&.partial?
+            Finder.find(model)
+          else
+            model
+          end
         end
       end
     end

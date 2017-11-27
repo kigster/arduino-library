@@ -3,25 +3,32 @@ require_relative 'model'
 
 module Arduino
   module Library
-    # This method is used internally by the Model class's #from method.
-    module Resolver
+    # The goal of this class is to identify a *single* library
+    # complete with all the metadata, in particular URL, so that
+    # the library can be installed.
+    #
+    # We accept partial information about the library, and construct
+    # query based this information. If multiple entries returned,
+    # but for the same library, the latest version is returned.
+    module Finder
       class << self
         include ::Arduino::Library::InstanceMethods
 
-        # Resolves a given model without a URL by performing a
-        # search in the Ardiuino Library for the library name and version.
+        # Finds a given model with only partial data by
+        # searching in the Ardiuino Database.
         #
-        #      model = Arduino::Library::Resolver.resolve({ name: 'AudioZero'} )
+        #      model = Arduino::Library::Finder.find({ name: 'AudioZero'} )
         #      # => <Arduino::Library::Model#0x3242gfa2...>
         #
         #      model.url # => 'https://github.com/.......'
         #
         # @param [Model] model with a partial information only, such as the name.
-        # @return [Model] a resolved model with #url provided, if found, nil otherwise.
-        def resolve(model)
+        # @return [Model] a found model with #url provided, if found, nil otherwise.
+        def find(model)
           raise ArgumentError, 'Model argument is required' unless model
+
           model = Model.from(model) unless model.is_a?(Model)
-          return model if model && model.url
+          return model unless model.partial?
 
           query = construct_query(model)
           return nil if query.empty?

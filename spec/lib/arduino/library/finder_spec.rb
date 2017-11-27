@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Arduino
   module Library
-    RSpec.describe Resolver, local_index: true do
+    RSpec.describe Finder, local_index: true do
 
       LibrarySpec = Struct.new(:name, :version, :expected_version)
 
@@ -14,9 +14,9 @@ module Arduino
         LibrarySpec.new('Alksjflsdfl', nil, nil)
       ]
 
-      context '#resolve' do
-        let(:resolvee) { Model.from_hash(query) }
-        subject(:resolved) { Resolver.resolve(resolvee) }
+      context '#find' do
+        let(:partial_model) { Model.from_hash(query) }
+        subject(:resolved) { Finder.find(partial_model) }
 
         EXPECTATIONS.each do |lib_spec|
           context "#{lib_spec}" do

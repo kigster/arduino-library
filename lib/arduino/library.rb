@@ -21,7 +21,7 @@ require 'arduino/library/types'
 require 'arduino/library/model'
 require 'arduino/library/database'
 require 'arduino/library/default_database'
-require 'arduino/library/resolver'
+require 'arduino/library/finder'
 require 'arduino/library/instance_methods'
 
 module Arduino

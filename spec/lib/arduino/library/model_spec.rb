@@ -103,7 +103,22 @@ RSpec.describe Arduino::Library::Model do
           expect(props.url).to eq(hash['url'])
         end
       end
+    end
 
+    context '#partial?' do
+      subject(:lib) { described_class.new(**available)}
+      context 'name' do
+        let(:available) { { name: 'AudioZero' } }
+        its(:partial?) { should be true }
+      end
+      context 'checksum' do
+        let(:available) { { checksum: 'SHA-256:c938f00aceec2f91465d1486b4cd2d3e1299cdc271eb743d2dedcd8c2dd355a8' } }
+        its(:partial?) { should be true }
+      end
+      context 'archiveFileName' do
+        let(:available) { { archiveFileName: 'MooFoo-2.3.4' } }
+        its(:partial?) { should be true }
+      end
     end
   end
 end

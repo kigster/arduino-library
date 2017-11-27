@@ -8,13 +8,14 @@
 
 # Arduino::Library
 
-This gem encapsulates various rules about the [`library.properties`](https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5:-Library-specification#library-metadata) file that contains meta-data about Arduino Libraries.
+> NOTE: This gem is the underpinning for [Arli](https://github.com/kigster/arli) — command line Arduino Library manager.
 
-It also provides convenient shortcuts for downloading the Arduino-maintained database of published libraries in JSON format, searching for various libraries, choosing a version, and more.
+This library offers a ruby model representing an Arduino Library, including field validation, reading and writing the [`library.properties`](https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5:-Library-specification#library-metadata) file, or searching for libraries in the official database.
 
-It also provides validation functionality for the `library.properties` file for your custom libraries you would like to open source.
+Searching for a library will transparently download and cache the Arduino-maintained JSON database of official libraries locally, so that future searches are fast. 
+
+The library also provides validation functionality for the `library.properties` file for your custom libraries you would like to open source.
  
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -74,21 +75,11 @@ Arduino::Library::DefaultDatabase.reload!
 
 #### Default Values:
 
-```ruby
-DEFAULT_ARDUINO_LIBRARY_INDEX_URL  =
-   'http://downloads.arduino.cc/libraries/library_index.json.gz'
-   
-DEFAULT_ARDUINO_LIBRARY_PATH       =
-    ENV['ARDUINO_CUSTOM_LIBRARY_PATH'] || (ENV['HOME'] + '/Documents/Arduino/Libraries')
-
-DEFAULT_ARDUINO_LIBRARY_INDEX_PATH =
-    ENV['ARDUINO_LIBRARY_INDEX_PATH'] ||
-    (ENV['HOME'] + '/Documents/Arduino/Libraries/index.json.gz')
-```
+Please review the [`library.rb`](https://github.com/kigster/arduino-library/blob/master/lib/arduino/library.rb) file to understand how these variables are resolved.
 
 ### Finding and Resolving Arduino Libraries
 
-Top level module `Arduino::Library` provides a convenient Facáde into the library functionality. Therefore you can use the library by calling these methods directly, such as `Arduino::Library.library_from(..)` or by including the module in your current context.
+The primary module `Arduino::Library` provides a convenient Facáde into all of the library functionality. Therefore you can use the library by calling these methods directly, such as `Arduino::Library.library_from(..)` or by including the module in your current context.
 
 Below we'll include the top level module, and use the shortcut methods to explore available functionality. That said, if you prefer not to include the top level module, you can call the same functions directly on the module itself.
 
@@ -101,13 +92,14 @@ class Foo
 end
 ```
 
-Or, perhaps easier:
+Or, perhaps even easier:
 
 ```ruby
 class Foo
   require 'arduino/library/include'
 end
 ```
+
 ### Facáde Methods
 
 #### Using `db_from`
@@ -145,6 +137,28 @@ library_from('~/Documents/Arduino/Libraries/AudioZero/library.properties').name
 library_from('https://raw.githubusercontent.com/PaulStoffregen/DS1307RTC/master/library.properties').name
 #=> 'DS1307RTC'
 ```
+
+In the next section you will read about the search, but the truth is that the `library_from` method actualy will fall back to search if you provide a partial hash. The allowed values in the hash are: `name, checksum, archiveFileName`. Since these keys often uniquely identify a library, the gem attempts to find it for you.
+
+```ruby
+require 'arduino/library/include' #=> true
+library_from(name: 'AudioZero')
+    => #<Arduino::Library::Model 
+            name="AudioZero" 
+            version="1.1.1" 
+            author="Arduino" 
+            maintainer="Arduino <info@arduino.cc>"
+            ..........>
+
+library_from(checksum: 'SHA-256:4604a3b92b9f4a7dd92534eb09247443fa5078e6bd0e7a2c5f3060eaba2ad974')
+    => #<Arduino::Library::Model 
+            name="AudioZero" 
+            version="1.1.1" 
+            author="Arduino" 
+            maintainer="Arduino <info@arduino.cc>"
+            ..........>
+```
+
 
 #### Using `search`
 
@@ -192,7 +206,11 @@ results.size
 
 Note that multiple attributes must ALL match for the library to be included in the result set.
 
-### `Arduino::Library::Database`
+### Low-level API
+
+The Facade is the recommended way to use library. Below we briefly describe the low-level API of the underlying classes.
+
+#### `Arduino::Library::Database`
 
 > Downloading the index of all libraries, and searching for a library.
 
@@ -249,11 +267,11 @@ all_versions = database.search(name: 'AudioZero')
 # => [ Arduino::Library::Model<name: AudioZero, version: '1.0.1',... >, .. ]
 ```
 
-### `Arduino::Library::Model` 
+#### `Arduino::Library::Model` 
 
 > Use this class to operate on a single library.
 
-#### Reading Library from an External Source using `.from`
+##### Reading Library from an External Source using `.from`
 
 You can use an intelligent class method `.from` that attempts to auto-detect the type of file or URL you are passing as an argument, and use an appropriate parser for each type. 
 
@@ -273,11 +291,11 @@ model = Arduino::Library::Model.from(properties_file)
 model.name #=> 'AudioZero'
 ```
 
-### Presenters
+#### Presenters
 
 Presenters are there to convert to and from a particular format.
 
-#### `.properties` Presenter
+##### `.properties` Presenter
 
 ```ruby
 props = Arduino::Library::Presenters::Properties.new(model).present
