@@ -8,8 +8,8 @@ module Arduino
 
       EXPECTATIONS = [
         LibrarySpec.new('AudioZero', nil, '1.1.1'),
-        LibrarySpec.new('AudioZero', '1.0.1', '1.0.1'),
         LibrarySpec.new('Esplora', '1.0.2', '1.0.2'),
+        LibrarySpec.new('AudioZero', '1.0.1', '1.0.1'),
         LibrarySpec.new('Esplora', nil, '1.0.4'),
         LibrarySpec.new('Alksjflsdfl', nil, nil)
       ]

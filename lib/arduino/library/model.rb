@@ -41,7 +41,11 @@ module Arduino
       end
 
       def <=>(another)
-        self.version_to_i <=> another.version_to_i
+        if self.name == another.name
+          self.version_to_i <=> another.version_to_i
+        else
+          self.name <=> another.name
+        end
       end
 
       # Class Methods
