@@ -120,5 +120,16 @@ RSpec.describe Arduino::Library::Model do
         its(:partial?) { should be true }
       end
     end
+
+    context 'from' do
+      context 'named search' do
+        let(:name) { 'Adafruit GFX Library' }
+        let(:result) { described_class.from(name: name)}
+        it 'should return the latest version' do
+          expect(result.name).to eq(name)
+          expect(result.version_to_i).to be > 1000000
+        end
+      end
+    end
   end
 end

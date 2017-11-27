@@ -124,8 +124,11 @@ module Arduino
                       if opts
                         if SEARCHABLE_FIELDS.any?{ |field| opts[field] }
                           results = search(**opts)
-                          raise "Too many items matched — #{results.size}" if results.size > 1
-                          results ? results.first : nil
+                          if results
+                            results.sort.last
+                          else
+                            nil
+                          end
                         else
                           from_hash(opts)
                         end
