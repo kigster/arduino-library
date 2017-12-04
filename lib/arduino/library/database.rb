@@ -62,7 +62,7 @@ module Arduino
                        when Proc
                          check.call(value)
                        else
-                         raise InvalidArgument, "Class #{check.class.name} is unsupported for value checks"
+                         raise ::OptionParser::InvalidArgument, "Class #{check.class.name} is unsupported for value checks"
                      end
           break unless matches
         end
