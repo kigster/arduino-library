@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/arduino-library.svg)](https://badge.fury.io/rb/arduino-library)
-[![Downloads](http://ruby-gem-downloads-badge.herokuapp.com/arduino-library?type=total)](https://rubygems.org/gems/arduino-library)
+[![Downloads](https://ruby-gem-downloads-badge.herokuapp.com/arduino-library?type=total)](https://rubygems.org/gems/arduino-library)
 
 [![Build Status](https://travis-ci.org/kigster/arduino-library.svg?branch=master)](https://travis-ci.org/kigster/arduino-library)
 [![Test Coverage](https://codeclimate.com/github/kigster/arduino-library/badges/coverage.svg)](https://codeclimate.com/github/kigster/arduino-library/coverage)
