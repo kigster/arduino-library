@@ -9,25 +9,22 @@ module Arduino
     # This class represents a single entry into the library-index.json file,
     # in other words — a `library.properties` file.
     class Model < Dry::Struct
+      transform_keys(&:to_sym)
+
+      extend Types::Properties
+      generate_attributes! Types.schema
+
       include Comparable
-
-      # noinspection RubyResolve
-      constructor_type :schema
-
-      Types::LIBRARY_PROPERTIES.each_pair do |field, type|
-        self.attribute field, eval(type)
-      end
 
       SEARCHABLE_FIELDS = %i(name archiveFileName checksum)
 
       # Instance Methods
-
       # Convert a version such as '1.44.3' into a number '1044003' for easy
       # sorting and comparison.
       def version_to_i
         if version
           first, second, third = version.split(/\./).map(&:to_i)
-          10**6 * (first || 0) + 10**3 * (second || 0) + (third || 0)
+          10 ** 6 * (first || 0) + 10 ** 3 * (second || 0) + (third || 0)
         else
           0
         end
@@ -37,7 +34,7 @@ module Arduino
 
       # @returns true if the library has enough data to be searched in the db
       def partial?
-        self.url.nil? && SEARCHABLE_FIELDS.any?{ |field| self.send(field) }
+        self.url.nil? && SEARCHABLE_FIELDS.any? { |field| self.send(field) }
       end
 
       def <=>(another)
@@ -57,11 +54,11 @@ module Arduino
         attr_writer :database
 
         def from_hash(hash)
-          new(Types.schema[hash])
+          new(Types.schema_for(hash))
         end
 
         def from_json(json)
-          from_hash(JSON.load(json))
+          from_hash(::JSON.load(json))
         end
 
         def from_json_file(file_or_url)
@@ -70,7 +67,7 @@ module Arduino
         end
 
         def from_properties_file(file_or_url)
-          raise "File #{file_or_url} does not exist?" unless File.exist?(file_or_url)
+          raise "File #{file_or_url} does not exist?" unless ::File.exist?(file_or_url)
           Presenters::Properties.from(file_or_url)
         end
 
@@ -112,31 +109,31 @@ module Arduino
         # @return [Model | Array<Model> ] — array for search, otherwise a model
         def from(source = nil, ** opts)
           model = case source
-                    when Hash
-                      from_hash(source)
-                    when String
-                      if source =~ /^{/m
-                        from_json(source)
-                      elsif File.exist?(source)
-                        if source =~ /\.json(\.gz)?$/i
-                          from_json_file(source)
-                        elsif source =~ /\.properties(\.gz)?$/i
-                          from_properties_file(source)
-                        end
+                  when ::Hash
+                    from_hash(source)
+                  when ::String
+                    if source =~ /^{/m
+                      from_json(source)
+                    elsif ::File.exist?(source)
+                      if source =~ /\.json(\.gz)?$/i
+                        from_json_file(source)
+                      elsif source =~ /\.properties(\.gz)?$/i
+                        from_properties_file(source)
                       end
-                    when NilClass
-                      if opts
-                        if SEARCHABLE_FIELDS.any?{ |field| opts[field] }
-                          results = search(**opts)
-                          if results
-                            results.sort.last
-                          else
-                            nil
-                          end
+                    end
+                  when ::NilClass
+                    if opts
+                      if SEARCHABLE_FIELDS.any? { |field| opts[field] }
+                        results = search(**opts)
+                        if results
+                          results.sort.last
                         else
-                          from_hash(opts)
+                          nil
                         end
+                      else
+                        from_hash(opts)
                       end
+                    end
                   end
           if model&.partial?
             Finder.find(model)

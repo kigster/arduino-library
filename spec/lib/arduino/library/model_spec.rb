@@ -6,7 +6,7 @@ RSpec.describe Arduino::Library::Model do
     let(:schema) { Arduino::Library::Types.schema }
 
     let(:file) { 'spec/fixtures/audio_zero.json' }
-    let(:json) { JSON.load(File.read(file)) }
+    let(:json) { ::JSON.load(::File.read(file)) }
     let(:hash) { json }
     let(:converted) { schema[hash] }
 
