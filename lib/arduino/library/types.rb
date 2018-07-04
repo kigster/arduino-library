@@ -84,14 +84,14 @@ module Arduino
         paragraph:       'Types::String',
         website:         'Types::String',
         category:        'Types::Category',
-        architectures:   'Types::Json::Array.member(Types::Architecture)',
-        types:           'Types::Json::Array.member(Types::LibraryTypes)',
+        architectures:   'Types::Json::Array.of(Types::Architecture)',
+        types:           'Types::Json::Array.of(Types::LibraryTypes)',
         url:             'Types::Url',
         archiveFileName: 'Types::FileName',
         size:            'Types::Coercible::Int',
         checksum:        'Types::Checksum',
         dot_a_linkage:   'Types::Bool.optional',
-        includes:        'Types::Json::Array.member(Types::FileName).optional',
+        includes:        'Types::Json::Array.of(Types::FileName).optional',
       }.freeze
 
       ARRAY_ATTRIBUTES = LIBRARY_PROPERTIES.keys.select { |k| LIBRARY_PROPERTIES[k] =~ /Array/ }
