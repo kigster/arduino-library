@@ -27,7 +27,7 @@ module Arduino
       def version_to_i
         if version
           first, second, third = version.split(/\./).map(&:to_i)
-          10**6 * (first || 0) + 10**3 * (second || 0) + (third || 0)
+          10 ** 6 * (first || 0) + 10 ** 3 * (second || 0) + (third || 0)
         else
           0
         end
@@ -37,7 +37,7 @@ module Arduino
 
       # @returns true if the library has enough data to be searched in the db
       def partial?
-        self.url.nil? && SEARCHABLE_FIELDS.any?{ |field| self.send(field) }
+        self.url.nil? && SEARCHABLE_FIELDS.any? { |field| self.send(field) }
       end
 
       def <=>(another)
@@ -110,38 +110,46 @@ module Arduino
         #   ends
         #
         # @return [Model | Array<Model> ] — array for search, otherwise a model
-        def from(source = nil, ** opts)
-          model = case source
-                    when Hash
-                      from_hash(source)
-                    when String
-                      if source =~ /^{/m
-                        from_json(source)
-                      elsif File.exist?(source)
-                        if source =~ /\.json(\.gz)?$/i
-                          from_json_file(source)
-                        elsif source =~ /\.properties(\.gz)?$/i
-                          from_properties_file(source)
-                        end
-                      end
-                    when NilClass
-                      if opts
-                        if SEARCHABLE_FIELDS.any?{ |field| opts[field] }
-                          results = search(**opts)
-                          if results
-                            results.sort.last
-                          else
-                            nil
-                          end
-                        else
-                          from_hash(opts)
-                        end
-                      end
-                  end
+        def from(source = nil, **opts)
+          model = model_by_class(source, **opts)
           if model&.partial?
-            Finder.find(model)
+            Finder.find_library(model)
           else
             model
+          end
+        end
+
+        private
+
+        def model_by_class(source, **opts)
+          case source
+            when Hash
+              from_hash(source)
+            when String
+              if source =~ /^{/m
+                from_json(source)
+              elsif File.exist?(source)
+                if source =~ /\.json(\.gz)?$/i
+                  from_json_file(source)
+                elsif source =~ /\.properties(\.gz)?$/i
+                  from_properties_file(source)
+                end
+              end
+            when NilClass
+              if opts
+                if SEARCHABLE_FIELDS.any? { |field| opts[field] }
+                  results = search(**opts)
+                  if results
+                    results.sort.last
+                  else
+                    nil
+                  end
+                else
+                  from_hash(opts)
+                end
+              end
+            else
+              nil
           end
         end
       end

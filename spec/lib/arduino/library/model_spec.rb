@@ -81,8 +81,15 @@ RSpec.describe Arduino::Library::Model do
       end
 
       context 'hash' do
-        subject(:lib) { described_class.from({ name: 'AudioZero', version: '1.0.1'}, {}) }
-        its(:name) { should eq 'AudioZero' }
+        context 'valid library' do
+          subject(:lib) { described_class.from({ name: 'AudioZero', version: '1.0.1'}, {}) }
+          its(:name) { should eq 'AudioZero' }
+        end
+
+        context 'invalid library' do
+          subject(:lib) { described_class.from({ name: 'Moochacha', version: '1.0.0'}, {}) }
+          it { is_expected.to be_nil }
+        end
       end
     end
 

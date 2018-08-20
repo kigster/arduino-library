@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe Arduino::Library do
-
-  PUBLIC_METHODS = Arduino::Library.methods - Object.methods
+  PUBLIC_METHODS = %i(find_library search db_from db_default library_from)
 
   class Foo
-    require 'arduino/library/include'
+    include Arduino::Library
   end
 
   let(:foo) { Foo.new }

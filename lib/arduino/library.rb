@@ -26,7 +26,15 @@ require 'arduino/library/instance_methods'
 
 module Arduino
   module Library
-    include InstanceMethods
+    class << self
+      def included(base)
+        base.include(::Arduino::Library::InstanceMethods)
+        base.include(::Arduino::Library::Finder::FinderMethods)
+      end
+
+      included(Arduino::Library)
+    end
+
   end
 end
 

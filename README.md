@@ -87,7 +87,7 @@ There are two ways to include the DSL in your context:
 ```ruby
 require 'arduino/library'
 class Foo
-  include Arduino::Library::InstanceMethods
+  include Arduino::Library
 end
 ```
 

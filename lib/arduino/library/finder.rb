@@ -11,11 +11,9 @@ module Arduino
     # query based this information. If multiple entries returned,
     # but for the same library, the latest version is returned.
     module Finder
-      class << self
-        include ::Arduino::Library::InstanceMethods
-
+      module FinderMethods
         # Finds a given model with only partial data by
-        # searching in the Ardiuino Database.
+        # searching in the Arduino Database.
         #
         #      model = Arduino::Library::Finder.find({ name: 'AudioZero'} )
         #      # => <Arduino::Library::Model#0x3242gfa2...>
@@ -24,17 +22,20 @@ module Arduino
         #
         # @param [Model] model with a partial information only, such as the name.
         # @return [Model] a found model with #url provided, if found, nil otherwise.
-        def find(model)
+        def find_library(model, version: :latest)
           raise ArgumentError, 'Model argument is required' unless model
-
           model = Model.from(model) unless model.is_a?(Model)
-          return model unless model.partial?
+          return model unless model&.partial?
 
           query = construct_query(model)
           return nil if query.empty?
 
-          latest_version_by(query)
+          get_library_version(query, version: version)
         end
+
+        alias find find_library
+
+        private
 
         # Given a model with partial information, constructs a query
         # by name and version.
@@ -52,7 +53,7 @@ module Arduino
         #
         # @param [Hash] query model attributes to search for, eg, +name: 'AudioZero'
         # @return <Model>  search result, or the most recent version if many match
-        def latest_version_by(query)
+        def get_library_version(query, version: :latest)
           results = if query.key?(:name)
                       Model.find(**query).sort
                     else
@@ -60,8 +61,24 @@ module Arduino
                     end
           return nil if results.size == 0
           return results.first if results.size == 1
-          results.last
+
+          if version == :latest
+            results.last
+          elsif version == :oldest
+            results.last
+          elsif version =~ /^[0-9.]*$/
+            results.find { |r| r.version == version }
+          else
+            raise ArgumentError, "Invalid version specified in arguments — #{version}." +
+                "Expecting either :latest, :oldest, or a specific version number."
+          end
         end
+      end
+
+
+      class << self
+        include ::Arduino::Library::InstanceMethods
+        include ::Arduino::Library::Finder::FinderMethods
       end
     end
   end
